@@ -1,0 +1,39 @@
+SELECT * FROM `plantilla-sql`.conductores;
+
+/* 1. Seleccionar todos los vehiculos junto con el nombre y apellido del conductor */
+
+SELECT v.idvehiculos, v.marcaVehiculo, v.modeloVehiculo, v.anyoVehiculo, c.nombreConductor, c.apellidoConductor
+FROM vehiculos v
+JOIN conductores c ON v.conductores_idconductores = c.idconductores;
+
+/* 2. Contar el número de vehiculos por conductor */
+
+SELECT c.idconductores AS id_conductores, c.nombreConductor, COUNT(v.idvehiculos) AS numeroVehiculosConductor
+FROM conductores c
+LEFT JOIN vehiculos v ON c.idconductores = v.conductores_idconductores
+GROUP BY c.idconductores, c.nombreConductor;
+
+/* 3. Seleccionar conductores y sus vehiculos, mostrando solo vehiculos de tipo 'coche' */
+
+SELECT c.idconductores AS id_conductores, c.nombreConductor, v.idvehiculos AS id_vehiculos
+FROM conductores c
+JOIN vehiculos v ON c.idconductores = v.conductores_idconductores
+WHERE v.tipoVehiculo = 'Coche';
+
+/* 4. Obtener la marca de los vehiculos y el telefono de sus conductores */
+
+SELECT v.marcaVehiculo, c.nombreConductor, c.telefonoConductor
+FROM vehiculos v
+JOIN conductores c ON v.conductores_idconductores = c.idconductores;
+
+/* 5. Seleccionar todos los conductores diferentes que tienen al menos un vehículo */
+
+SELECT DISTINCT c.idconductores, c.nombreConductor
+FROM conductores c
+JOIN vehiculos v ON c.idconductores = v.conductores_idconductores;
+
+/* 6. Contar el número de conductores que tienen vehiculos de tipo “bicicleta" */
+
+SELECT COUNT(DISTINCT v.conductores_idconductores) AS numeroConductoresBicicleta
+FROM vehiculos v
+WHERE v.tipoVehiculo = 'bicicleta';
